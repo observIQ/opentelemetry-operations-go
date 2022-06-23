@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go/logging v1.4.2
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.2
 	github.com/census-instrumentation/opencensus-proto v0.3.0
+	github.com/googleapis/gax-go/v2 v2.2.0
 	github.com/stretchr/testify v1.7.1
 	go.opencensus.io v0.23.0
 	go.opentelemetry.io/collector/semconv v0.53.0
@@ -40,7 +41,6 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/googleapis/gax-go/v2 v2.2.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect

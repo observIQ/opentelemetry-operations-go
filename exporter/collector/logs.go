@@ -31,8 +31,10 @@ import (
 	logpb "google.golang.org/genproto/googleapis/logging/v2"
 	"google.golang.org/protobuf/proto"
 
+	"github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/collector/httpclient"
 	"github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping"
 
+	gax "github.com/googleapis/gax-go/v2"
 	"go.opentelemetry.io/collector/pdata/pcommon"
 	"go.opentelemetry.io/collector/pdata/plog"
 	"go.uber.org/multierr"
@@ -78,9 +80,14 @@ var severityMapping = []logging.Severity{
 	logging.Emergency, // 24 -> Emergency
 }
 
+type LoggingClient interface {
+	WriteLogEntries(ctx context.Context, loggingReq *logpb.WriteLogEntriesRequest, opts ...gax.CallOption) (*logpb.WriteLogEntriesResponse, error)
+	Close() error
+}
+
 type LogsExporter struct {
 	obs           selfObservability
-	loggingClient *loggingv2.Client
+	loggingClient LoggingClient
 	cfg           Config
 	mapper        logMapper
 }
@@ -106,9 +113,17 @@ func NewGoogleCloudLogsExporter(
 		return nil, err
 	}
 
-	loggingClient, err := loggingv2.NewClient(ctx, clientOpts...)
-	if err != nil {
-		return nil, err
+	var loggingClient LoggingClient
+	if cfg.LogConfig.UseHTTP {
+		loggingClient, err = httpclient.NewClient(ctx, cfg.UserAgent, cfg.LogConfig.CredFile)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		loggingClient, err = loggingv2.NewClient(ctx, clientOpts...)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	obs := selfObservability{

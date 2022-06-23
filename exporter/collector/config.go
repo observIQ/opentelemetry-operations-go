@@ -133,6 +133,8 @@ type LogConfig struct {
 	// DefaultLogName sets the fallback log name to use when one isn't explicitly set
 	// for a log entry. If unset, logs without a log name will raise an error.
 	DefaultLogName string       `mapstructure:"default_log_name"`
+	UseHTTP        bool         `mapstructure:"use_http"`
+	CredFile       string       `mapstructure:"cred_file"`
 	ClientConfig   ClientConfig `mapstructure:",squash"`
 }
 

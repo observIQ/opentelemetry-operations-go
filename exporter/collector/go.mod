@@ -8,6 +8,8 @@ require (
 	github.com/census-instrumentation/opencensus-proto v0.3.0
 	github.com/googleapis/gax-go/v2 v2.2.0
 	github.com/stretchr/testify v1.7.1
+	github.com/tinylib/msgp v1.1.6
+	github.com/vmihailenco/msgpack/v5 v5.3.5
 	go.opencensus.io v0.23.0
 	go.opentelemetry.io/collector/semconv v0.53.0
 	go.opentelemetry.io/otel v1.7.0
@@ -45,8 +47,10 @@ require (
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/philhofer/fwd v1.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/net v0.0.0-20220325170049-de3da57026de // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220328115105-d36c6a25d886 // indirect

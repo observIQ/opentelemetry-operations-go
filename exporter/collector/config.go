@@ -251,19 +251,20 @@ func generateClientOptions(ctx context.Context, clientCfg *ClientConfig, cfg *Co
 			return nil, err
 		}
 		copts = append(copts, option.WithTokenSource(tokenSource))
-	} else if !clientCfg.UseInsecure {
-		creds, err := google.FindDefaultCredentials(ctx, scopes...)
-		if err != nil {
-			return nil, fmt.Errorf("error finding default application credentials: %v", err)
-		}
-		copts = append(copts, option.WithCredentials(creds))
-		if cfg.ProjectID == "" {
-			if creds.ProjectID == "" {
-				return nil, errors.New("no project found with application default credentials")
-			}
-			cfg.ProjectID = creds.ProjectID
-		}
 	}
+	// } else if !clientCfg.UseInsecure {
+	// 	creds, err := google.FindDefaultCredentials(ctx, scopes...)
+	// 	if err != nil {
+	// 		return nil, fmt.Errorf("error finding default application credentials: %v", err)
+	// 	}
+	// 	copts = append(copts, option.WithCredentials(creds))
+	// 	if cfg.ProjectID == "" {
+	// 		if creds.ProjectID == "" {
+	// 			return nil, errors.New("no project found with application default credentials")
+	// 		}
+	// 		cfg.ProjectID = creds.ProjectID
+	// 	}
+	// }
 	if clientCfg.GRPCPoolSize > 0 {
 		copts = append(copts, option.WithGRPCConnectionPool(clientCfg.GRPCPoolSize))
 	}

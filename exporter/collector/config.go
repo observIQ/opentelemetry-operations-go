@@ -281,18 +281,20 @@ func generateClientOptions(ctx context.Context, clientCfg *ClientConfig, cfg *Co
 		}
 		copts = append(copts, option.WithTokenSource(tokenSource))
 	} else if !clientCfg.UseInsecure {
-		creds, err := google.FindDefaultCredentials(ctx, scopes...)
-		if err != nil {
-			return nil, fmt.Errorf("error finding default application credentials: %v", err)
-		}
+		var creds *google.Credentials
+		var err error
 		if clientCfg.GetClientOptions == nil || len(clientCfg.GetClientOptions()) == 0 {
 			// Only add default credentials if GetClientOptions does not
 			// provide additional options since GetClientOptions could pass
 			// credentials which conflict with the default creds.
+			creds, err = google.FindDefaultCredentials(ctx, scopes...)
+			if err != nil {
+				return nil, fmt.Errorf("error finding default application credentials: %v", err)
+			}
 			copts = append(copts, option.WithCredentials(creds))
 		}
 		if cfg.ProjectID == "" {
-			if creds.ProjectID == "" {
+			if creds == nil || creds.ProjectID == "" {
 				return nil, errors.New("no project found with application default credentials")
 			}
 			cfg.ProjectID = creds.ProjectID
